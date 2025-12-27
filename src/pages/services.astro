@@ -1,0 +1,168 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroVenue from "../components/HeroVenue.astro";
+import { Image } from "astro:assets";
+import servicesPlanning from "../assets/images/services-planning.png";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+    title="Services"
+    description="Comprehensive event planning and venue services for every occasion."
+>
+    <HeroVenue
+        headline="Exceptional Services"
+        subheading="More than just a venue. We provide end-to-end support to bring your vision to life."
+        primaryCtaLabel="Contact Us"
+        primaryCtaLink={`${base}contact/`}
+        secondaryCtaLabel="View Gallery"
+        secondaryCtaLink="#"
+    />
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Events We Host</h2>
+                <p>
+                    Our versatile spaces are perfect for a wide range of
+                    functions.
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Weddings</h3>
+                    <p>Ceremonies, receptions, and engagement parties.</p>
+                    <a href={`${base}weddings/`}>Learn more &rarr;</a>
+                </div>
+                <div class="service-card">
+                    <h3>Corporate</h3>
+                    <p>
+                        Conferences, seminars, product launches, and team
+                        building.
+                    </p>
+                    <a href={`${base}corporate/`}>Learn more &rarr;</a>
+                </div>
+                <div class="service-card">
+                    <h3>Private Functions</h3>
+                    <p>Birthdays, anniversaries, christenings, and reunions.</p>
+                </div>
+                <div class="service-card">
+                    <h3>School Balls</h3>
+                    <p>
+                        A safe, sophisticated setting for formal celebrations.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <h3>Memorials</h3>
+                    <p>
+                        Respectful and private spaces for wakes and life
+                        celebrations.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <h3>Christmas Parties</h3>
+                    <p>Festive packages for office and group celebrations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container split-layout">
+            <div class="text-block">
+                <h2>Event Planning Support</h2>
+                <p>
+                    Our experienced events team is here to guide you every step
+                    of the way. Our services include:
+                </p>
+                <ul class="support-list">
+                    <li>Dedicated Event Coordinator</li>
+                    <li>Floor Plan & Layout Design</li>
+                    <li>Run Sheet Development</li>
+                    <li>
+                        Supplier Recommendations (Florists, DJs, Photographers)
+                    </li>
+                    <li>On-the-day Management</li>
+                </ul>
+            </div>
+            <div class="image-block">
+                <Image
+                    src={servicesPlanning}
+                    alt="Event Planning"
+                    class="rounded-img"
+                />
+            </div>
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    .text-center {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto var(--space-8);
+    }
+
+    .services-grid {
+        display: grid;
+        gap: var(--space-6);
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .service-card {
+        background: #fff;
+        border: 1px solid var(--color-divider);
+        padding: var(--space-6);
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .service-card h3 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        margin-bottom: var(--space-2);
+    }
+    .service-card a {
+        color: var(--color-accent-secondary);
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: auto;
+        display: inline-block;
+    }
+
+    .bg-light {
+        background-color: #faf9f6;
+        margin-top: var(--space-8);
+    }
+
+    .split-layout {
+        display: grid;
+        gap: var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+        .split-layout {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+    }
+
+    .support-list {
+        margin-top: var(--space-4);
+        padding-left: 1.5rem;
+    }
+    .support-list li {
+        margin-bottom: 0.5rem;
+    }
+    .rounded-img {
+        border-radius: var(--radius-md);
+    }
+</style>

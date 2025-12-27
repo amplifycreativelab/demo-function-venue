@@ -1,0 +1,564 @@
+---
+import "../styles/global.css";
+import AvailabilityCTA from "../components/AvailabilityCTA.astro";
+import DemoLayout from "./DemoLayout.astro";
+
+interface Props {
+    title: string;
+    description?: string;
+}
+
+const {
+    title,
+    description = "Premium function venue concept demo for weddings and corporate events.",
+} = Astro.props;
+const siteTitle = "Function Venue"; // Could be dynamic
+const pageTitle = `${title} | ${siteTitle}`;
+const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>{pageTitle}</title>
+        <meta name="description" content={description} />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Non-indexed portfolio demo: intentionally no schema -->
+    </head>
+    <body>
+        <DemoLayout>
+        <a href="#main-content" class="skip-link">Skip to content</a>
+
+        <header class="site-header">
+            <div class="container header-inner">
+                <a href={base} class="logo"> Function Venue </a>
+
+                <button
+                    class="mobile-menu-toggle"
+                    type="button"
+                    aria-label="Open menu"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
+                    data-mobile-menu-toggle
+                >
+                    <span class="sr-only">Menu</span>
+                    <span class="mobile-menu-icon" aria-hidden="true"></span>
+                </button>
+
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        <li><a href={`${base}packages/`}>Packages</a></li>
+                        <li><a href={`${base}weddings/`}>Weddings</a></li>
+                        <li><a href={`${base}corporate/`}>Corporate</a></li>
+                        <li><a href={`${base}contact/`}>Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions">
+                    <AvailabilityCTA class="full-width-on-mobile" />
+                </div>
+            </div>
+        </header>
+
+        <div id="mobile-menu" class="mobile-menu" hidden data-mobile-menu>
+            <div
+                class="mobile-menu-backdrop"
+                data-mobile-menu-close
+                aria-hidden="true"
+            ></div>
+            <div
+                class="mobile-menu-panel"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Site menu"
+                tabindex="-1"
+            >
+                <div class="mobile-menu-header">
+                    <a href={base} class="logo mobile-menu-logo">
+                        Function Venue
+                    </a>
+                    <button
+                        class="mobile-menu-close"
+                        type="button"
+                        aria-label="Close menu"
+                        data-mobile-menu-close
+                    >
+                        <span aria-hidden="true">✕</span>
+                    </button>
+                </div>
+
+                <nav class="mobile-menu-nav" aria-label="Mobile navigation">
+                    <ul class="mobile-menu-list">
+                        <li><a href={`${base}packages/`}>Packages</a></li>
+                        <li><a href={`${base}weddings/`}>Weddings</a></li>
+                        <li><a href={`${base}corporate/`}>Corporate</a></li>
+                        <li><a href={`${base}contact/`}>Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="mobile-menu-cta">
+                    <AvailabilityCTA class="full-width-on-mobile" />
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const toggle = document.querySelector("[data-mobile-menu-toggle]");
+            const menu = document.querySelector("[data-mobile-menu]");
+            const panel = menu?.querySelector(".mobile-menu-panel");
+
+            if (toggle instanceof HTMLButtonElement && menu instanceof HTMLElement && panel instanceof HTMLElement) {
+                const closeTriggers = Array.from(
+                    menu.querySelectorAll("[data-mobile-menu-close]"),
+                );
+                const focusableSelector =
+                    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+                let lastFocused = null;
+
+                const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+
+                const getFocusable = () =>
+                    Array.from(panel.querySelectorAll(focusableSelector)).filter(
+                        (el) => el instanceof HTMLElement && !el.hasAttribute("disabled"),
+                    );
+
+                const setOpenState = (open) => {
+                    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+                    document.body.classList.toggle("mobile-menu-open", open);
+                };
+
+                const openMenu = () => {
+                    lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+                    menu.hidden = false;
+                    setOpenState(true);
+
+                    const firstLink = panel.querySelector(".mobile-menu-list a");
+                    if (firstLink instanceof HTMLElement) {
+                        firstLink.focus();
+                        return;
+                    }
+
+                    const focusables = getFocusable();
+                    if (focusables[0] instanceof HTMLElement) focusables[0].focus();
+                    else panel.focus();
+                };
+
+                const closeMenu = () => {
+                    menu.hidden = true;
+                    setOpenState(false);
+                    (lastFocused ?? toggle).focus();
+                };
+
+                toggle.addEventListener("click", () => {
+                    if (isOpen()) closeMenu();
+                    else openMenu();
+                });
+
+                closeTriggers.forEach((trigger) => {
+                    trigger.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        closeMenu();
+                    });
+                });
+
+                panel.addEventListener("click", (e) => {
+                    const target = e.target;
+                    if (!(target instanceof Element)) return;
+                    if (target.closest("a")) closeMenu();
+                });
+
+                document.addEventListener("keydown", (e) => {
+                    if (menu.hidden) return;
+
+                    if (e.key === "Escape") {
+                        e.preventDefault();
+                        closeMenu();
+                        return;
+                    }
+
+                    if (e.key !== "Tab") return;
+
+                    const focusables = getFocusable();
+                    if (focusables.length === 0) return;
+
+                    const first = focusables[0];
+                    const last = focusables[focusables.length - 1];
+                    const active = document.activeElement;
+
+                    if (e.shiftKey) {
+                        if (active === first || active === panel) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                        return;
+                    }
+
+                    if (active === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                });
+
+                const mediaQuery = window.matchMedia("(min-width: 768px)");
+                const onMediaChange = (event) => {
+                    if (event.matches && isOpen()) closeMenu();
+                };
+
+                if (typeof mediaQuery.addEventListener === "function") {
+                    mediaQuery.addEventListener("change", onMediaChange);
+                } else if (typeof mediaQuery.addListener === "function") {
+                    mediaQuery.addListener(onMediaChange);
+                }
+            }
+        </script>
+
+        <main id="main-content">
+            <slot />
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer-grid">
+                <div class="footer-brand">
+                    <span class="logo">Function Venue</span>
+                    <p>Elegant spaces for your most important moments.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href={`${base}weddings/`}>Weddings</a></li>
+                        <li>
+                            <a href={`${base}corporate/`}>Corporate Events</a>
+                        </li>
+                        <li><a href={`${base}packages/`}>Packages</a></li>
+                        <li><a href={`${base}contact/`}>Book a Viewing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Demo</h4>
+                    <p>
+                        Non-indexed concept demo (no real address or contact details).
+                    </p>
+                    <p>
+                        <a
+                            href="https://amplifycreativelab.com"
+                            target="_blank"
+                            rel="nofollow noopener noreferrer"
+                            >amplifycreativelab.com</a
+                        >
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom container">
+                <p>
+                    &copy; {new Date().getFullYear()} Function Venue. All rights reserved.
+                </p>
+                <p class="service-area">
+                    Concept demo only (no real service area).
+                </p>
+            </div>
+        </footer>
+        </DemoLayout>
+    </body>
+</html>
+
+<style>
+    /* Header Styles */
+    .site-header {
+        background-color: var(--color-bg);
+        border-bottom: 1px solid var(--color-divider);
+        padding-block: var(--space-4);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .header-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        flex: 1 1 100%;
+    }
+
+    .logo {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--color-divider);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-white);
+        padding: 0;
+    }
+
+    .mobile-menu-icon,
+    .mobile-menu-icon::before,
+    .mobile-menu-icon::after {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--color-text);
+        border-radius: 2px;
+        position: relative;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .mobile-menu-icon::before,
+    .mobile-menu-icon::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+
+    .mobile-menu-icon::before {
+        top: -6px;
+    }
+
+    .mobile-menu-icon::after {
+        top: 6px;
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .mobile-menu-icon {
+        background: transparent;
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .mobile-menu-icon::before {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .mobile-menu-icon::after {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+    }
+
+    .mobile-menu-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    .mobile-menu-panel {
+        position: relative;
+        margin-left: auto;
+        height: 100%;
+        width: min(420px, 100%);
+        background: var(--color-bg);
+        border-left: 1px solid var(--color-divider);
+        padding: var(--space-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-8);
+        overflow-y: auto;
+    }
+
+    .mobile-menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+    }
+
+    .mobile-menu-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--color-divider);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-white);
+        font-size: 1.25rem;
+        line-height: 1;
+        padding: 0;
+    }
+
+    .mobile-menu-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+
+    .mobile-menu-list a {
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+        font-size: 1rem;
+        padding-block: var(--space-2);
+        border-bottom: 1px solid var(--color-divider);
+    }
+
+    .mobile-menu-cta {
+        margin-top: auto;
+    }
+
+    body.mobile-menu-open {
+        overflow: hidden;
+    }
+
+    .nav-list {
+        display: flex;
+        gap: var(--space-6);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-list a {
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+    }
+
+    .nav-list a:hover {
+        color: var(--color-accent-secondary);
+    }
+
+    @media (min-width: 768px) {
+        .header-inner {
+            flex-wrap: nowrap;
+            gap: 0;
+        }
+
+        .header-actions {
+            flex: 0 0 auto;
+        }
+
+        .main-nav {
+            display: block;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+    }
+
+    /* Skip Link */
+    .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        background: var(--color-text);
+        color: var(--color-bg);
+        padding: 1rem;
+        z-index: 200;
+    }
+
+    .skip-link:focus {
+        top: 0;
+    }
+
+    /* Footer */
+    .site-footer {
+        background-color: var(--color-text);
+        color: var(--color-bg);
+        padding-block: var(--space-16);
+        margin-top: auto;
+    }
+
+    .footer-grid {
+        display: grid;
+        gap: var(--space-8);
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+        .footer-grid {
+            grid-template-columns: 1.5fr 1fr 1fr;
+        }
+    }
+
+    .footer-brand .logo {
+        font-size: 2rem;
+        margin-bottom: var(--space-4);
+        display: block;
+    }
+
+    .footer-links h4,
+    .footer-contact h4 {
+        font-family: var(--font-heading);
+        color: var(--color-accent-primary);
+        margin-bottom: var(--space-4);
+        font-size: 1.25rem;
+    }
+
+    .footer-links ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: var(--space-2);
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: var(--space-12);
+        padding-top: var(--space-6);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    @media (min-width: 768px) {
+        .footer-bottom {
+            flex-direction: row;
+        }
+    }
+
+    address {
+        font-style: normal;
+        line-height: 1.8;
+    }
+</style>

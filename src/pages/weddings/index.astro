@@ -1,0 +1,303 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroVenue from "../../components/HeroVenue.astro";
+import TestimonialCard from "../../components/TestimonialCard.astro";
+import testimonialsData from "../../data/testimonials.json";
+import { Image } from "astro:assets";
+import weddingHero from "../../assets/images/wedding-hero.png";
+import weddingCeremony from "../../assets/images/wedding-ceremony.png";
+
+const weddingTestimonials = testimonialsData.filter((t) =>
+    t.event.toLowerCase().includes("wedding"),
+);
+const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+    title="Weddings"
+    description="Celebrate your special day at our wedding venue concept demo."
+>
+    <HeroVenue
+        headline="Your Forever Begins Here"
+        subheading="A romantic, timeless setting for your perfect wedding day."
+        primaryCtaLabel="Book a Wedding Viewing"
+        primaryCtaLink={`${base}contact/`}
+        secondaryCtaLabel="Download Brochure"
+        secondaryCtaLink="#"
+        backgroundImage={weddingHero}
+    />
+
+    <section class="section">
+        <div class="container split-layout">
+            <div class="text-block">
+                <h2>Ceremony & Reception</h2>
+                <p>
+                    From an intimate garden ceremony to a grand reception in our
+                    main ballroom, we offer seamless transitions for your entire
+                    day. Our venue features:
+                </p>
+                <ul class="feature-list">
+                    <li>Private garden courtyard for ceremonies</li>
+                    <li>Elegant ballroom with high ceilings</li>
+                    <li>Dedicated bridal suite with champagne service</li>
+                    <li>Picturesque photography locations on-site</li>
+                </ul>
+            </div>
+            <div class="image-block">
+                <Image
+                    src={weddingCeremony}
+                    alt="Ceremony Setup"
+                    class="rounded-img"
+                />
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Wedding Packages</h2>
+                <p>Everything you need for a stress-free celebration.</p>
+            </div>
+            <div class="pricing-preview">
+                <div class="price-box">
+                    <h3>Classic Wedding</h3>
+                    <div class="price">From $180pp</div>
+                    <p>
+                        Includes venue hire, 3-course menu, and 5-hour beverage
+                        package.
+                    </p>
+                </div>
+                <div class="price-box featured">
+                    <span class="badge">Most Popular</span>
+                    <h3>Premium Indulgence</h3>
+                    <div class="price">From $220pp</div>
+                    <p>
+                        Includes styling package, oyster station, spirits
+                        upgrade, and DJ.
+                    </p>
+                </div>
+            </div>
+            <div class="center-cta">
+                <a href={`${base}packages/`} class="btn-link"
+                    >View Full Package Details &rarr;</a
+                >
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container narrow">
+            <h2 style="text-align: center; margin-bottom: var(--space-8);">
+                Sample Timeline
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="time">3:30 PM</span>
+                    <span class="event">Guests Arrive</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="time">4:00 PM</span>
+                    <span class="event">Ceremony in Garden Courtyard</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="time">4:30 PM</span>
+                    <span class="event">Cocktail Hour & Photos</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="time">6:00 PM</span>
+                    <span class="event">Reception Entry & Dinner</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="time">11:00 PM</span>
+                    <span class="event">Farewell</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {
+        weddingTestimonials.length > 0 && (
+            <section class="section bg-warm">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Love Stories</h2>
+                    </div>
+                    <div class="testimonials-grid">
+                        {weddingTestimonials.map((t) => (
+                            <TestimonialCard
+                                name={t.name}
+                                event={t.event}
+                                quote={t.quote}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        )
+    }
+
+    <section class="section cta-section text-center">
+        <div class="container narrow">
+            <h2>Start Planning Your Day</h2>
+            <p>
+                Dates for the upcoming season are filling fast. Contact our
+                wedding coordinator to secure your viewing.
+            </p>
+            <a href={`${base}contact/`} class="btn-primary">Enquire Now</a>
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    .split-layout {
+        display: grid;
+        gap: var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+        .split-layout {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+    }
+
+    .rounded-img {
+        border-radius: var(--radius-md);
+    }
+
+    .feature-list {
+        list-style: disc;
+        padding-left: 1.5rem;
+        margin-top: var(--space-4);
+    }
+
+    .feature-list li {
+        margin-bottom: 0.5rem;
+    }
+
+    .bg-light {
+        background-color: #faf9f6;
+    }
+    .bg-warm {
+        background-color: #f5f5f0;
+    }
+
+    .pricing-preview {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+        justify-content: center;
+        margin-bottom: var(--space-6);
+    }
+
+    @media (min-width: 768px) {
+        .pricing-preview {
+            flex-direction: row;
+        }
+    }
+
+    .price-box {
+        background: #fff;
+        padding: var(--space-8);
+        border: 1px solid var(--color-divider);
+        text-align: center;
+        flex: 1;
+        max-width: 400px;
+        position: relative;
+    }
+
+    .price-box.featured {
+        border-color: var(--color-accent-primary);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--color-accent-primary);
+        color: #fff;
+        padding: 4px 12px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .price {
+        font-size: 1.5rem;
+        color: var(--color-accent-secondary);
+        margin: var(--space-2) 0;
+        font-weight: 500;
+    }
+
+    .timeline {
+        border-left: 2px solid var(--color-divider);
+        padding-left: var(--space-8);
+        margin-left: var(--space-4);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: var(--space-8);
+    }
+
+    .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: calc(var(--space-8) * -1 - 6px); /* Align with line */
+        top: 6px;
+        width: 10px;
+        height: 10px;
+        background: var(--color-accent-primary);
+        border-radius: 50%;
+    }
+
+    .timeline-item .time {
+        display: block;
+        font-weight: 600;
+        color: var(--color-accent-secondary);
+    }
+
+    .timeline-item .event {
+        font-size: 1.1rem;
+    }
+
+    .container.narrow {
+        max-width: 800px;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .testimonials-grid {
+        display: grid;
+        gap: var(--space-6);
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .btn-link {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid currentColor;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background-color: var(--color-text);
+        color: var(--color-white);
+        padding: 1rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+        margin-top: var(--space-4);
+    }
+
+    .btn-primary:hover {
+        background-color: #000;
+    }
+</style>

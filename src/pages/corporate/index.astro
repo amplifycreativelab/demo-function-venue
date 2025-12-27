@@ -1,0 +1,255 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroVenue from "../../components/HeroVenue.astro";
+import PackageCard from "../../components/PackageCard.astro";
+import packagesData from "../../data/packages.json";
+import { Image } from "astro:assets";
+import corporateHero from "../../assets/images/corporate-hero.png";
+import corporateAv from "../../assets/images/corporate-av.png";
+
+const corporatePackage = packagesData.find((p) => p.slug === "corporate");
+const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+    title="Corporate Events"
+    description="Professional venue concept demo for conferences, product launches, and corporate functions."
+>
+    <HeroVenue
+        headline="Professional Events, Elevated"
+        subheading="Impress your clients and team with a sophisticated corporate venue concept."
+        primaryCtaLabel="Request Proposal"
+        primaryCtaLink={`${base}contact/`}
+        secondaryCtaLabel="View Spaces"
+        secondaryCtaLink="#"
+        backgroundImage={corporateHero}
+    />
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header center">
+                <h2>Versatile Coporate Spaces</h2>
+                <p>
+                    From board meetings to gala dinners, we have the perfect
+                    space.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Conferences</h3>
+                    <p>
+                        Full-day delegate packages featuring ergonomic seating,
+                        breakout zones, and continuous coffee service.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>Product Launches</h3>
+                    <p>
+                        A blank canvas with vehicle access and custom lighting
+                        to showcase your brand in style.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>Team Dinners</h3>
+                    <p>
+                        Private dining rooms for intimate team celebrations or
+                        client entertainment.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container split-layout">
+            <div class="text-block">
+                <h2>Seamless Technology</h2>
+                <p>
+                    We understand that technology is critical to your event's
+                    success. That's why we offer:
+                </p>
+                <ul class="check-list">
+                    <li>High-speed WiFi (dedicated line available)</li>
+                    <li>Ceiling-mounted projectors & screens</li>
+                    <li>Wireless microphones & lecterns</li>
+                    <li>Live streaming capabilities</li>
+                    <li>On-site technician support</li>
+                </ul>
+            </div>
+            <div class="image-block">
+                <Image
+                    src={corporateAv}
+                    alt="Corporate AV Setup"
+                    class="rounded-img"
+                />
+            </div>
+        </div>
+    </section>
+
+    {
+        corporatePackage && (
+            <section class="section">
+                <div class="container">
+                    <div class="section-header center">
+                        <h2>Featured Package</h2>
+                    </div>
+                    <div class="package-highlight">
+                        <PackageCard
+                            title={corporatePackage.title}
+                            price={corporatePackage.price}
+                            capacity={corporatePackage.capacity}
+                            inclusions={corporatePackage.inclusions}
+                            link={`${base}contact/`}
+                            featured={true}
+                        />
+                        <div class="package-text">
+                            <h3>All-Inclusive Day Delegate</h3>
+                            <p>
+                                Simplify your planning with our comprehensive
+                                day delegate package. We handle all the
+                                logistics, catering, and AV, so you can focus on
+                                the agenda.
+                            </p>
+                            <p>
+                                <strong>Add-ons available:</strong>{" "}
+                                Post-conference networking drinks, private
+                                dinner upgrades.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        )
+    }
+
+    <section class="section cta-section text-center bg-dark">
+        <div class="container narrow">
+            <h2>Ready to Plan Your Next Event?</h2>
+            <p>
+                Contact our corporate events team for a custom proposal within
+                24 hours.
+            </p>
+            <a href={`${base}contact/`} class="btn-primary">Enquire Now</a>
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    .center {
+        text-align: center;
+        max-width: 600px;
+        margin-inline: auto;
+        margin-bottom: var(--space-8);
+    }
+
+    .features-grid {
+        display: grid;
+        gap: var(--space-6);
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .feature-card {
+        background: #faf9f6;
+        padding: var(--space-6);
+        border: 1px solid var(--color-divider);
+    }
+
+    .feature-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: var(--space-2);
+        font-family: var(--font-heading);
+    }
+
+    .split-layout {
+        display: grid;
+        gap: var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+        .split-layout {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+    }
+
+    .check-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .check-list li {
+        padding-left: 1.5rem;
+        position: relative;
+        margin-bottom: 0.5rem;
+    }
+
+    .check-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--color-accent-secondary);
+    }
+
+    .bg-light {
+        background-color: #faf9f6;
+        border-top: 1px solid var(--color-divider);
+        border-bottom: 1px solid var(--color-divider);
+    }
+    .bg-dark {
+        background-color: var(--color-text);
+        color: var(--color-white);
+    }
+
+    .rounded-img {
+        border-radius: var(--radius-md);
+    }
+
+    .package-highlight {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-8);
+        align-items: center;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+        .package-highlight {
+            flex-direction: row;
+        }
+
+        .package-highlight > :global(.package-card) {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .package-text {
+            flex: 1;
+            text-align: left;
+        }
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background-color: var(--color-white);
+        color: var(--color-text);
+        padding: 1rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+        margin-top: var(--space-4);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-accent-primary);
+    }
+</style>

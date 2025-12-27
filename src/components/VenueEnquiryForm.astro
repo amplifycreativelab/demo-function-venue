@@ -1,0 +1,216 @@
+---
+
+---
+
+<form
+    class="venue-enquiry-form"
+    method="POST"
+    action="/success-placeholder"
+    data-astro-reload
+>
+    <div class="form-grid">
+        <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                autocomplete="name"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autocomplete="email"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" />
+        </div>
+
+        <div class="form-group">
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" name="date" />
+        </div>
+
+        <div class="form-group">
+            <label for="eventType">Event Type *</label>
+            <div class="select-wrapper">
+                <select id="eventType" name="eventType" required>
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="wedding">Wedding</option>
+                    <option value="corporate">Corporate Event</option>
+                    <option value="private">Private Function</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="guests">Approx. Guest Count</label>
+            <input type="number" id="guests" name="guests" min="1" />
+        </div>
+
+        <div class="form-group full-width">
+            <label for="budget">Budget Range</label>
+            <div class="select-wrapper">
+                <select id="budget" name="budget">
+                    <option value="" disabled selected>Select a range</option>
+                    <option value="under-5k">Under $5k</option>
+                    <option value="5k-10k">$5k - $10k</option>
+                    <option value="10k-20k">$10k - $20k</option>
+                    <option value="20k-plus">$20k+</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="message">Message / Specific Requirements</label>
+            <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+
+        <!-- Honeypot -->
+        <div style="display:none;">
+            <label for="honey">Don't fill this out if you're human:</label>
+            <input type="text" id="honey" name="honey" />
+        </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Send Enquiry</button>
+
+    <div class="form-success-message hidden" role="alert">
+        <h3>Thank you!</h3>
+        <p>
+            We have received your enquiry and will be in touch within 1 business
+            day.
+        </p>
+    </div>
+</form>
+
+<script>
+    const form = document.querySelector(".venue-enquiry-form");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            // Simulate submission
+            const btn = form.querySelector(".submit-btn") as HTMLButtonElement;
+            const successMsg = form.querySelector(".form-success-message");
+
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = "Sending...";
+            }
+
+            setTimeout(() => {
+                if (btn) btn.style.display = "none";
+                if (successMsg) successMsg.classList.remove("hidden");
+                (form as HTMLFormElement).reset();
+            }, 1000);
+        });
+    }
+</script>
+
+<style>
+    .venue-enquiry-form {
+        background-color: var(--color-white);
+        padding: var(--space-8);
+        border: 1px solid var(--color-divider);
+        border-radius: var(--radius-sm);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+        margin-bottom: var(--space-6);
+    }
+
+    @media (min-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: var(--space-1);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    input,
+    select,
+    textarea {
+        padding: 0.75rem;
+        border: 1px solid var(--color-divider);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-size: 1rem;
+        background-color: #fff;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: 2px solid var(--color-accent-primary);
+        border-color: var(--color-accent-primary);
+    }
+
+    .select-wrapper {
+        position: relative;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 1rem;
+        background-color: var(--color-text);
+        color: var(--color-white);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: #000;
+    }
+
+    .submit-btn:disabled {
+        background-color: var(--color-accent-secondary);
+        cursor: not-allowed;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .form-success-message {
+        text-align: center;
+        padding: var(--space-4);
+        background-color: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: var(--color-success);
+        margin-top: var(--space-4);
+    }
+
+    .form-success-message h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+</style>

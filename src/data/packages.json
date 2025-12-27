@@ -1,0 +1,38 @@
+[
+    {
+        "slug": "wedding",
+        "title": "Wedding Package",
+        "capacity": "Up to 150 guests",
+        "price": "From $180pp",
+        "inclusions": [
+            "Exclusive Venue Hire",
+            "3-Course Fine Dining",
+            "5-Hour Beverage Package",
+            "Bridal Suite Access"
+        ]
+    },
+    {
+        "slug": "corporate",
+        "title": "Corporate Package",
+        "capacity": "20 - 200 guests",
+        "price": "From $85pp",
+        "inclusions": [
+            "Conference Room Setup",
+            "Morning & Afternoon Tea",
+            "Working Lunch Buffet",
+            "Premium AV Equipment"
+        ]
+    },
+    {
+        "slug": "private",
+        "title": "Private Events",
+        "capacity": "Up to 300 guests (Cocktail)",
+        "price": "From $120pp",
+        "inclusions": [
+            "Flexible Cocktail Layout",
+            "Gourmet Canapés & Grazing",
+            "Custom Bar Packages",
+            "Integrated Sound System"
+        ]
+    }
+]

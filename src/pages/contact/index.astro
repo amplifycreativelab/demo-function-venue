@@ -1,0 +1,172 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import VenueEnquiryForm from "../../components/VenueEnquiryForm.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import { Image } from "astro:assets";
+import mapPlaceholder from "../../assets/images/map-placeholder.png";
+
+const faqs = [
+    {
+        question: "How do I secure a booking?",
+        answer: "To secure your date, we require a signed contract and a 20% deposit. The balance is due 14 days prior to your event.",
+    },
+    {
+        question: "Can I bring my own caterer?",
+        answer: "We are a fully licensed venue with an exclusive in-house catering team. However, we can accommodate specific cultural dietary requirements upon request.",
+    },
+    {
+        question: "Is there a minimum spend?",
+        answer: "Yes, minimum spends apply for Friday and Saturday evenings. These vary by season—please enquire for specific dates.",
+    },
+    {
+        question: "Do you provide AV equipment?",
+        answer: "Our Corporate packages include standard AV. For weddings and private events, we can arrange equipment hire or work with your preferred suppliers.",
+    },
+    {
+        question: "Is there wheelchair access?",
+        answer: "Yes, all our function spaces and restrooms are fully accessible.",
+    },
+    {
+        question: "What time does the venue close?",
+        answer: "Music and beverage service must conclude by 11:30 PM, with guests departing by midnight.",
+    },
+];
+const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+    title="Contact Us"
+    description="Get in touch to check availability or book a viewing (concept demo)."
+>
+    <div class="page-header">
+        <div class="container">
+            <h1>Contact & Allocations</h1>
+            <p>Start planning your unforgettable event today.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container contact-layout">
+            <div class="form-column">
+                <h2>Make an Enquiry</h2>
+                <p class="form-intro">
+                    Please fill out the form below and our events team will be
+                    in touch within 24 hours.
+                </p>
+                <VenueEnquiryForm />
+            </div>
+
+            <div class="info-column">
+                <div class="info-card">
+                    <h3>Visit Us</h3>
+                    <address>
+                        Fictional location<br />
+                        (No real address)
+                    </address>
+                    <div class="map-container">
+                        <Image
+                            src={mapPlaceholder}
+                            alt="Map View"
+                            class="map-img"
+                        />
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Get in Touch</h3>
+                    <p>
+                        <a
+                            href="https://amplifycreativelab.com"
+                            target="_blank"
+                            rel="nofollow noopener noreferrer"
+                            >amplifycreativelab.com</a
+                        >
+                    </p>
+                    <p class="text-muted">Concept demo (no real contact details).</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Viewing Hours</h3>
+                    <p><strong>Mon - Fri:</strong> 9am - 5pm</p>
+                    <p><strong>Sat:</strong> By appointment only</p>
+                    <p><strong>Sun:</strong> Closed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container narrow">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            <FAQAccordion items={faqs} />
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    .page-header {
+        background-color: var(--color-text);
+        color: var(--color-white);
+        padding: var(--space-8) 0;
+        text-align: center;
+    }
+
+    .contact-layout {
+        display: grid;
+        gap: var(--space-12);
+    }
+
+    @media (min-width: 900px) {
+        .contact-layout {
+            grid-template-columns: 2fr 1fr;
+        }
+    }
+
+    .form-intro {
+        margin-bottom: var(--space-6);
+    }
+
+    .info-column {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+
+    .info-card {
+        background: #faf9f6;
+        padding: var(--space-6);
+        border: 1px solid var(--color-divider);
+    }
+
+    .info-card h3 {
+        margin-bottom: var(--space-4);
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .map-container {
+        margin-top: var(--space-4);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+    }
+
+    .map-img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .bg-light {
+        background-color: #faf9f6;
+    }
+    .narrow {
+        max-width: 800px;
+    }
+    .text-center {
+        text-align: center;
+        margin-bottom: var(--space-8);
+    }
+</style>

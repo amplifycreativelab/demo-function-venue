@@ -1,0 +1,39 @@
+:root {
+    /* Colors */
+    --color-bg: #FAFAF8;
+    --color-accent-primary: #D8CFC4;
+    --color-accent-secondary: #9FA8A3;
+    --color-text: #2B2B2B;
+    --color-divider: rgba(0, 0, 0, 0.1);
+    --color-white: #FFFFFF;
+    --color-success: #2e7d32;
+    --color-error: #d32f2f;
+
+    /* Fonts */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-24: 96px;
+    /* Desktop vertical padding */
+
+    /* Radii */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.03);
+
+    /* Layout */
+    --max-width: 1280px;
+}

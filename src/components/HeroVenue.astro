@@ -1,0 +1,138 @@
+---
+import { getImage } from "astro:assets";
+import defaultHeroImage from "../assets/images/hero-venue.png";
+
+interface Props {
+    headline: string;
+    subheading: string;
+    primaryCtaLabel?: string;
+    primaryCtaLink?: string;
+    secondaryCtaLabel?: string;
+    secondaryCtaLink?: string;
+    backgroundImage?: string | ImageMetadata;
+}
+
+const {
+    headline,
+    subheading,
+    primaryCtaLabel = "Book a Viewing",
+    primaryCtaLink = "/contact",
+    secondaryCtaLabel = "View Packages",
+    secondaryCtaLink = "/packages",
+    backgroundImage,
+} = Astro.props;
+
+let bgUrl;
+
+if (backgroundImage) {
+    if (typeof backgroundImage === "string") {
+        bgUrl = backgroundImage;
+    } else {
+        const optimized = await getImage({
+            src: backgroundImage,
+            format: "webp",
+        });
+        bgUrl = optimized.src;
+    }
+} else {
+    const optimized = await getImage({ src: defaultHeroImage, format: "webp" });
+    bgUrl = optimized.src;
+}
+---
+
+<section
+    class="hero-venue"
+    style={`background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${bgUrl}');`}
+>
+    <div class="container hero-content">
+        <h1>{headline}</h1>
+        <p class="subheading">{subheading}</p>
+
+        <div class="cta-group">
+            <a href={primaryCtaLink} class="btn btn-primary"
+                >{primaryCtaLabel}</a
+            >
+            <a href={secondaryCtaLink} class="btn btn-secondary"
+                >{secondaryCtaLabel}</a
+            >
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero-venue {
+        height: 80vh;
+        min-height: 600px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--color-white);
+    }
+
+    .hero-content {
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: var(--space-4);
+        color: var(--color-white);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subheading {
+        font-size: 1.25rem;
+        margin-bottom: var(--space-8);
+        opacity: 0.9;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-group {
+        display: flex;
+        gap: var(--space-4);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+
+    .btn-primary {
+        background-color: var(--color-white);
+        color: var(--color-text);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-accent-primary);
+        border-color: var(--color-accent-primary);
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--color-white);
+        border-color: var(--color-white);
+    }
+
+    .btn-secondary:hover {
+        background-color: var(--color-white);
+        color: var(--color-text);
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2.5rem;
+        }
+    }
+</style>

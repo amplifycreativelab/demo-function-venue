@@ -1,0 +1,110 @@
+---
+interface Props {
+    title: string;
+    price: string;
+    capacity: string;
+    inclusions: string[];
+    link?: string;
+    featured?: boolean;
+}
+
+const {
+    title,
+    price,
+    capacity,
+    inclusions,
+    link = "/contact",
+    featured = false,
+} = Astro.props;
+---
+
+<div class:list={["package-card", { featured }]}>
+    <h3>{title}</h3>
+    <div class="price">{price}</div>
+    <p class="capacity">{capacity}</p>
+
+    <ul class="inclusions">
+        {inclusions.map((item) => <li>{item}</li>)}
+    </ul>
+
+    <a href={link} class="card-cta">View Details</a>
+</div>
+
+<style>
+    .package-card {
+        background-color: var(--color-white);
+        border: 1px solid var(--color-divider);
+        padding: var(--space-8);
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .package-card.featured {
+        border-color: var(--color-accent-primary);
+        background-color: #faf9f6; /* Slightly warmer white */
+    }
+
+    .package-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-soft);
+    }
+
+    h3 {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-2);
+    }
+
+    .price {
+        font-family: var(--font-body);
+        font-size: 1.25rem;
+        color: var(--color-accent-secondary);
+        margin-bottom: var(--space-4);
+        font-weight: 500;
+    }
+
+    .capacity {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: var(--space-6);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .inclusions {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 var(--space-8) 0;
+        flex-grow: 1;
+        text-align: left; /* Or center? List usually looks better left aligned or centered if short items */
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: center;
+    }
+
+    .inclusions li {
+        font-size: 0.95rem;
+        color: var(--color-text);
+    }
+
+    .card-cta {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border: 1px solid var(--color-divider);
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        transition: all 0.2s ease;
+        align-self: center;
+    }
+
+    .card-cta:hover {
+        border-color: var(--color-text);
+        background-color: var(--color-text);
+        color: var(--color-white);
+    }
+</style>

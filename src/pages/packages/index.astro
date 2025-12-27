@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PackageCard from "../../components/PackageCard.astro";
+import packagesData from "../../data/packages.json";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Packages">
+    <div class="page-header">
+        <div class="container">
+            <h1>Our Packages</h1>
+            <p>Transparent, inclusive pricing for every occasion.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div class="intro-text">
+                <p>
+                    We believe in simplicity and transparency. Our packages are
+                    designed to include everything you need for a seamless
+                    event, with no hidden costs. All packages can be tailored to
+                    suit your specific requirements.
+                </p>
+            </div>
+
+            <div class="packages-grid">
+                {
+                    packagesData.map((pkg) => (
+                        <PackageCard
+                            title={pkg.title}
+                            price={pkg.price}
+                            capacity={pkg.capacity}
+                            inclusions={pkg.inclusions}
+                            link={`${base}contact/`}
+                            featured={pkg.slug === "wedding"}
+                        />
+                    ))
+                }
+            </div>
+
+            <div class="add-ons-section">
+                <h3>Optional Add-Ons</h3>
+                <p>Enhance your event with our curated extras:</p>
+                <ul class="addons-list">
+                    <li>Additional hour of beverage service</li>
+                    <li>Premium spirit upgrade</li>
+                    <li>Cheese & grazing station</li>
+                    <li>Tiffany chairs upgrade</li>
+                    <li>Projector & screen hire</li>
+                </ul>
+            </div>
+
+            <div class="center-cta">
+                <p>Looking for something bespoke?</p>
+                <a href={`${base}contact/`} class="btn-primary"
+                    >Request Custom Quote</a
+                >
+            </div>
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    .page-header {
+        background-color: var(--color-text);
+        color: var(--color-white);
+        padding: var(--space-12) 0;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        color: var(--color-white);
+        margin-bottom: var(--space-2);
+    }
+    .page-header p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+    }
+
+    .intro-text {
+        max-width: 800px;
+        margin: 0 auto var(--space-12);
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .packages-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+        margin-bottom: var(--space-16);
+    }
+
+    @media (min-width: 768px) {
+        .packages-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .add-ons-section {
+        background-color: #faf9f6;
+        padding: var(--space-8);
+        border: 1px solid var(--color-divider);
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .add-ons-section h3 {
+        margin-bottom: var(--space-4);
+    }
+
+    .addons-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-4);
+    }
+
+    .addons-list li {
+        background: #fff;
+        padding: var(--space-2) var(--space-4);
+        border: 1px solid var(--color-divider);
+        border-radius: var(--radius-sm);
+    }
+
+    .center-cta {
+        text-align: center;
+        margin-top: var(--space-12);
+    }
+
+    .center-cta p {
+        margin-bottom: var(--space-4);
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background-color: var(--color-text);
+        color: var(--color-white);
+        padding: 1rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+    }
+
+    .btn-primary:hover {
+        background-color: #000;
+    }
+</style>

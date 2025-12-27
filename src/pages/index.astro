@@ -1,0 +1,310 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroVenue from "../components/HeroVenue.astro";
+import PackageCard from "../components/PackageCard.astro";
+import GalleryGrid from "../components/GalleryGrid.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import packagesData from "../data/packages.json";
+import testimonialsData from "../data/testimonials.json";
+import { Image } from "astro:assets";
+import venueImage from "../assets/images/hero-venue.png";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
+
+const faqs = [
+	{
+		question: "What is your capacity?",
+		answer: "We can host up to 150 guests for seated weddings and up to 300 guests for cocktail style events.",
+	},
+	{
+		question: "Do you offer on-site catering?",
+		answer: "Yes, our executive chef prepares all meals on-site using fresh, local produce.",
+	},
+	{
+		question: "Is there parking available?",
+		answer: "Yes, we have a private car park for up to 80 vehicles, with additional street parking nearby.",
+	},
+	{
+		question: "Can we hold our ceremony on-site?",
+		answer: "Absolutely. We have a beautiful garden courtyard perfect for ceremonies.",
+	},
+];
+---
+
+<BaseLayout title="Home">
+	<HeroVenue
+		headline="An elegant function venue for weddings & corporate events"
+		subheading="Premium spaces for weddings & corporate events, accommodating 20 to 300 guests."
+		primaryCtaLink={`${base}contact/`}
+		secondaryCtaLink={`${base}packages/`}
+	/>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-header">
+				<h2>Curated Packages</h2>
+				<p>Transparent pricing for unforgettable events.</p>
+			</div>
+			<div class="packages-grid">
+				{
+					packagesData.map((pkg) => (
+						<PackageCard
+							title={pkg.title}
+							price={pkg.price}
+							capacity={pkg.capacity}
+							inclusions={pkg.inclusions}
+							link={`${base}packages/`}
+						/>
+					))
+				}
+			</div>
+			<div class="center-cta">
+				<a href={`${base}packages/`} class="btn-link"
+					>View All Packages &rarr;</a
+				>
+			</div>
+		</div>
+	</section>
+
+	<section class="section bg-warm">
+		<div class="container split-layout">
+			<div class="content">
+				<h2>Capacity & Inclusions</h2>
+				<p>Our venue offers flexible spaces tailored to your needs.</p>
+
+				<div class="capacity-table">
+					<div class="row">
+						<strong>Seated Banquet</strong>
+						<span>Up to 150</span>
+					</div>
+					<div class="row">
+						<strong>Cocktail / Standing</strong>
+						<span>Up to 300</span>
+					</div>
+					<div class="row">
+						<strong>Theatre Style</strong>
+						<span>Up to 200</span>
+					</div>
+					<div class="row">
+						<strong>Boardroom</strong>
+						<span>Up to 40</span>
+					</div>
+				</div>
+
+				<h3>Standard Inclusions</h3>
+				<ul class="feature-list">
+					<li>State-of-the-art AV system & microphone</li>
+					<li>Lectern & stage options</li>
+					<li>Customizable lighting</li>
+					<li>Wheelchair accessibility throughout</li>
+					<li>Private bridal / green room</li>
+					<li>Dedicated event coordinator</li>
+				</ul>
+			</div>
+			<div class="image-block">
+				<Image
+					src={venueImage}
+					alt="Venue Interior"
+					class="rounded-img"
+				/>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-header">
+				<h2>Gallery</h2>
+				<p>Explore our versatile event spaces.</p>
+			</div>
+			<GalleryGrid />
+			<div class="center-cta">
+				<a href="#" class="btn-link">Follow us on Instagram &rarr;</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section bg-light">
+		<div class="container">
+			<div class="section-header">
+				<h2>Kind Words</h2>
+			</div>
+			<div class="testimonials-grid">
+				{
+					testimonialsData.map((t) => (
+						<TestimonialCard
+							name={t.name}
+							event={t.event}
+							quote={t.quote}
+						/>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container narrow">
+			<div class="section-header">
+				<h2>Common Questions</h2>
+			</div>
+			<FAQAccordion items={faqs} />
+			<div class="center-cta" style="margin-top:2rem;">
+				<a href={`${base}contact/`} class="btn-primary">View Full FAQ</a
+				>
+			</div>
+		</div>
+	</section>
+
+	<section class="section bg-dark text-white">
+		<div class="container">
+			<h2>Example Coverage</h2>
+			<p>Fictional neighbourhood list included for layout only:</p>
+			<ul class="locations-list">
+				<li>Central District</li>
+				<li>Riverside</li>
+				<li>Old Quarter</li>
+				<li>East Market</li>
+				<li>Harbor Walk</li>
+				<li>Studio Row</li>
+			</ul>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.section-header {
+		text-align: center;
+		margin-bottom: var(--space-8);
+		max-width: 600px;
+		margin-inline: auto;
+	}
+
+	.section-header h2 {
+		margin-bottom: var(--space-2);
+	}
+
+	.packages-grid,
+	.testimonials-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-6);
+	}
+
+	@media (min-width: 768px) {
+		.packages-grid,
+		.testimonials-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.bg-warm {
+		background-color: #faf9f6;
+		border-top: 1px solid var(--color-divider);
+		border-bottom: 1px solid var(--color-divider);
+	}
+	.bg-light {
+		background-color: #fff;
+	}
+	.bg-dark {
+		background-color: var(--color-text);
+		color: var(--color-white);
+		text-align: center;
+	}
+
+	.split-layout {
+		display: grid;
+		gap: var(--space-8);
+	}
+
+	@media (min-width: 768px) {
+		.split-layout {
+			grid-template-columns: 1fr 1fr;
+			align-items: center;
+		}
+	}
+
+	.capacity-table {
+		margin-bottom: var(--space-6);
+		background: #fff;
+		padding: var(--space-4);
+		border: 1px solid var(--color-divider);
+	}
+
+	.row {
+		display: flex;
+		justify-content: space-between;
+		padding: var(--space-2) 0;
+		border-bottom: 1px solid var(--color-divider);
+	}
+
+	.row:last-child {
+		border-bottom: none;
+	}
+
+	.feature-list {
+		list-style: disc;
+		padding-left: 1.5rem;
+		color: var(--color-text);
+	}
+
+	.feature-list li {
+		margin-bottom: 0.5rem;
+	}
+
+	.container.narrow {
+		max-width: 800px;
+	}
+
+	.center-cta {
+		text-align: center;
+		margin-top: var(--space-6);
+	}
+
+	.btn-link {
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 0.9rem;
+		letter-spacing: 0.05em;
+		border-bottom: 1px solid currentColor;
+		padding-bottom: 2px;
+	}
+
+	.btn-primary {
+		display: inline-block;
+		background-color: var(--color-text);
+		color: var(--color-white);
+		padding: 1rem 2rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		font-weight: 500;
+	}
+
+	.btn-primary:hover {
+		background-color: #000;
+		color: var(--color-white);
+	}
+
+	.rounded-img {
+		border-radius: var(--radius-md);
+	}
+
+	.locations-list {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-6);
+		margin-top: var(--space-4);
+		font-family: var(--font-heading);
+		font-size: 1.25rem;
+	}
+
+	.locations-list li {
+		opacity: 0.8;
+	}
+</style>

@@ -1,0 +1,90 @@
+---
+interface FAQItem {
+    question: string;
+    answer: string;
+}
+
+interface Props {
+    items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-accordion">
+    {
+        items.map((item, index) => (
+            <details class="faq-item">
+                <summary>
+                    <span class="question">{item.question}</span>
+                    <span class="icon" aria-hidden="true">
+                        +
+                    </span>
+                </summary>
+                <div class="answer">
+                    <p>{item.answer}</p>
+                </div>
+            </details>
+        ))
+    }
+</div>
+
+<style>
+    .faq-accordion {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .faq-item {
+        border-bottom: 1px solid var(--color-divider);
+    }
+
+    summary {
+        cursor: pointer;
+        padding: var(--space-4) 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style: none; /* Hide default triangle */
+    }
+
+    summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .question {
+        font-weight: 500;
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+    }
+
+    .icon {
+        font-size: 1.5rem;
+        font-weight: 300;
+        line-height: 1;
+        transition: transform 0.3s ease;
+    }
+
+    details[open] .icon {
+        transform: rotate(45deg);
+    }
+
+    .answer {
+        padding-bottom: var(--space-4);
+        color: #555;
+        line-height: 1.6;
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

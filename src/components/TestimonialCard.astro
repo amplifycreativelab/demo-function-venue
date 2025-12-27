@@ -1,0 +1,56 @@
+---
+interface Props {
+    name: string;
+    event: string;
+    quote: string;
+}
+
+const { name, event, quote } = Astro.props;
+---
+
+<div class="testimonial-card">
+    <blockquote>“{quote}”</blockquote>
+    <div class="author">
+        <cite>{name}</cite>
+        <span class="event-type">{event}</span>
+    </div>
+</div>
+
+<style>
+    .testimonial-card {
+        background-color: #faf9f6;
+        padding: var(--space-8);
+        border-left: 3px solid var(--color-accent-primary);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    blockquote {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-style: italic;
+        margin: 0 0 var(--space-6) 0;
+        line-height: 1.5;
+        color: var(--color-text);
+    }
+
+    .author {
+        display: flex;
+        flex-direction: column;
+    }
+
+    cite {
+        font-weight: 600;
+        font-style: normal;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.875rem;
+    }
+
+    .event-type {
+        font-size: 0.8rem;
+        color: var(--color-accent-secondary);
+    }
+</style>
